@@ -1,3 +1,4 @@
+#Obj de metodos y si están o no incompletos
 class Metodos_Inc:
     def __init__(self, tipoMetodo, incompleto):
         self.tipoMetodo = tipoMetodo
@@ -6,7 +7,7 @@ class Metodos_Inc:
     def __repr__(self):
         return f'{self.tipoMetodo} {self.incompleto}'
 
-
+#Obj de token con su tipo y nombre
 class Token:
     def __init__(self, token, tipo, nombre):
         self.token = token
@@ -16,13 +17,13 @@ class Token:
     def __repr__(self):
         return f'Token: {self.token}, Tipo de token: {self.tipo}, Valor del token: {self.nombre}'
 
+#Clase utilizada para analizar texto
 class Lexer:
     def __init__(self, texto):
         self.texto = texto
         self.tokens = []
         self.metodosIncompletos = []
         self.pos = 0
-        self.current_char = self.texto[self.pos] if self.texto else None
         
         # Definir los diccionarios
         self.operadores_aritmeticos = {
@@ -82,6 +83,7 @@ class Lexer:
         self.numeros = {"0","1","2","3","4","5","6","7","8","9"}
         self.simbolos = {"$"}
 
+#Detecta si la palabra tiene la sintaxis coherente para ser cadena
     def esCadena(self, word):
         word_separada = list(word)
         contador = 0
@@ -106,6 +108,7 @@ class Lexer:
         else: 
             self.tokens.append(Token(word, "Valor de asignacion", "Es una cadena*"))
 
+#Detecta si la palabra tiene la sintaxis coherente para ser entero o real
     def esEnteroOReal(self, word):
         word_separada = list(word)
         contadorEntero = 0
@@ -131,6 +134,7 @@ class Lexer:
         elif contadorPuntos == 0:
             self.tokens.append(Token(word, "Valor de asignación", "Es un entero"))
 
+#Recorre las palabras guardades en un arregla y se buscan en los diccionarios o se revisa si son valores
     def separarPalabrasYReconocer(self):
         words = self.texto.split()
         for word in words:
@@ -158,7 +162,7 @@ class Lexer:
             elif word.startswith("+"):
                 if len(word) ==3:
                     if word.endswith("+"):
-                        if word[1] in self.numeros or word in self.letras or word in self.simbolos and word.endswith("+"):
+                        if word[1] in self.numeros or word[1] in self.letras or word[1] in self.simbolos and word.endswith("+"):
                             print(len(word))
                             self.tokens.append(Token(word, "Valor de asignación", "Es un caracter"))
                         else:
@@ -171,6 +175,7 @@ class Lexer:
         
         return self.tokens
     
+ #Obtiene la cantidad de inicializacion y finalizacion de metodos para revisar si estos estan correctamente completados   
     def obtenerMetodosIncompletos(self):
         words = self.texto.split()
         inif = words.count("elegir_outfit")
@@ -189,6 +194,7 @@ class Lexer:
             self.metodosIncompletos.append(Metodos_Inc("Ciclo", "Completo"))
         return self.metodosIncompletos
     
+#Creación de matrices con los valores obtenidos por el analizador léxico
     def crearMatrizTokens(self):
         matriz = []
         for token in self.tokens:

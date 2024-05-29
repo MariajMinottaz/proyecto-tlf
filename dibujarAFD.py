@@ -46,5 +46,5 @@ def show_image(image_path):
     root.mainloop()
 
 if __name__ == "__main__":
-    cadena = "combina_con" # Cadena larga para probar la barra de desplazamiento
+    cadena = "combina_con"
     draw_dfa(cadena)
