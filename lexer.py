@@ -1,3 +1,11 @@
+class Metodos_Inc:
+    def __init__(self, tipoMetodo, incompleto):
+        self.tipoMetodo = tipoMetodo
+        self.incompleto = incompleto
+    
+    def __repr__(self):
+        return f'{self.tipoMetodo} {self.incompleto}'
+
 
 class Token:
     def __init__(self, token, tipo, nombre):
@@ -172,13 +180,13 @@ class Lexer:
         cantif = inif-finif
         cantcic = incic-fincic
         if cantif!=0:
-            self.metodosIncompletos.append("Las decisiones no se han cerrado correctamente")
+            self.metodosIncompletos.append(Metodos_Inc("Decision", "Incompleto"))
         else:
-            self.metodosIncompletos.append("Las decisiones se han cerrado correctamente")
+            self.metodosIncompletos.append(Metodos_Inc("Decision", "Completo"))
         if cantcic!=0:
-            self.metodosIncompletos.append("Los ciclos no se han cerrado correctamente")
+            self.metodosIncompletos.append(Metodos_Inc("Ciclo", "Incompleto"))
         else:
-            self.metodosIncompletos.append("Los ciclos se han cerrado correctamente")
+            self.metodosIncompletos.append(Metodos_Inc("Ciclo", "Completo"))
         return self.metodosIncompletos
     
     def crearMatrizTokens(self):
@@ -191,6 +199,7 @@ class Lexer:
     def crearMatrizMetodos(self):
         matriz = []
         for metodo in self.metodosIncompletos:
+            fila = [metodo.tipoMetodo, metodo.incompleto]
             matriz.append(metodo)
         return matriz
     
